@@ -1,6 +1,6 @@
 [package]
 name = "koprs"
-version = "0.9.9"
+version = "0.10.4"
 edition = "2024"
 description = "A reusable, ergonomic library that streamlines Kubernetes operator development, allowing developers to build controllers with significantly less code."
 license = "MIT"
@@ -17,9 +17,9 @@ path = "src/lib.rs"
 thiserror = "1"
 chrono = { version = "0.4", features = ["clock"] }
 futures = "0.3"
-k8s-openapi = { version = "0.25.0", default-features = false, features = ["v1_33"] }
-kube = { version = "1.1.0", default-features = true, features = ["derive", "runtime"] }
-kube-runtime = "1.1.0"
+k8s-openapi = { version = "0.28.0", default-features = false, features = ["v1_36"] }
+kube = { version = "4.2.0", default-features = true, features = ["derive", "runtime"] }
+kube-runtime = "4.2.0"
 serde = { version = "1.0", features = ["derive"] }
 schemars = { workspace = true }
 serde_json = "1.0"
