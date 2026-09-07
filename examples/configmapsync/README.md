@@ -113,8 +113,8 @@ Cargo.toml
 
 | Crate | Version | Purpose |
 |---|---|---|
-| `kube` | 1.1.0 | Kubernetes client + controller runtime |
-| `k8s-openapi` | 0.25.0 (v1_33) | Typed Kubernetes API objects |
+| `kube` | 4.2.0 | Kubernetes client + controller runtime |
+| `k8s-openapi` | 0.28.0 (v1_36) | Typed Kubernetes API objects |
 | `koprs` | 0.6.1 | Helper abstractions (SSA, finalizers, status patching, conditions, label patching, GC) |
 | `tokio` | 1.0 | Async runtime |
 | `tracing` / `tracing-subscriber` | 0.1 / 0.3 | Structured logging |

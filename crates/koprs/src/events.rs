@@ -25,7 +25,6 @@
 //! # }
 //! ```
 
-use chrono::Utc;
 use k8s_openapi::api::core::v1::ObjectReference;
 use k8s_openapi::api::events::v1::Event;
 use k8s_openapi::apimachinery::pkg::apis::meta::v1::{MicroTime, ObjectMeta};
@@ -116,12 +115,8 @@ where
     let resource_name = meta.name.as_deref().unwrap_or("unknown");
     let namespace = meta.namespace.as_deref().unwrap_or("default");
 
-    let now = Utc::now();
-    let event_name = format!(
-        "{}.{:x}",
-        resource_name,
-        now.timestamp_nanos_opt().unwrap_or(0) as u64
-    );
+    let now = k8s_openapi::jiff::Timestamp::now();
+    let event_name = format!("{}.{:x}", resource_name, now.as_nanosecond() as u64);
 
     let reporting_instance = std::env::var("POD_NAME")
         .or_else(|_| std::env::var("HOSTNAME"))

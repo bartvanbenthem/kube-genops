@@ -1,6 +1,6 @@
 [package]
 name = "koprs-external"
-version = "0.9.2"
+version = "0.10.1"
 edition = "2024"
 description = "Generic polling watchers for external sources such as HTTP APIs and object stores, designed as a companion to koprs Kubernetes operators."
 license = "MIT"
@@ -28,8 +28,8 @@ optional = true
 [dev-dependencies]
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "test-util", "time"] }
 axum = { version = "0.8.9", default-features = false, features = ["http1", "tokio"] }
-kube = { version = "1.1.0", default-features = true, features = ["derive", "runtime"] }
-k8s-openapi = { version = "0.25.0", default-features = false, features = ["v1_33"] }
+kube = { version = "4.2.0", default-features = true, features = ["derive", "runtime"] }
+k8s-openapi = { version = "0.28.0", default-features = false, features = ["v1_36"] }
 
 [features]
 default = []

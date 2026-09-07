@@ -267,7 +267,7 @@ pub(crate) async fn try_acquire_or_renew(
     client: &Client,
 ) -> Result<bool> {
     let api: kube::Api<Lease> = kube::Api::namespaced(client.clone(), &config.namespace);
-    let now = chrono::Utc::now();
+    let now = k8s_openapi::jiff::Timestamp::now();
     let now_micro = MicroTime(now);
 
     let existing = api
@@ -306,7 +306,7 @@ pub(crate) async fn try_acquire_or_renew(
                 .unwrap_or(config.lease_duration_secs);
 
             let is_expired = renew_time.map_or(true, |rt| {
-                now > rt + chrono::Duration::seconds(duration_secs as i64)
+                now > rt + k8s_openapi::jiff::SignedDuration::new(duration_secs as i64, 0)
             });
 
             if holder != Some(config.identity.as_str()) && !is_expired {

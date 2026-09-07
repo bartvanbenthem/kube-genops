@@ -159,8 +159,8 @@ Cargo.toml
 
 | Crate | Version | Purpose |
 |---|---|---|
-| `kube` | 1.1.0 | Kubernetes client + controller runtime |
-| `k8s-openapi` | 0.25.0 (v1_33) | Typed Kubernetes API objects |
+| `kube` | 4.2.0 | Kubernetes client + controller runtime |
+| `k8s-openapi` | 0.28.0 (v1_36) | Typed Kubernetes API objects |
 | `koprs` | workspace | Core operator abstractions (SSA, finalizers, status patching, GC, events) |
 | `koprs-external` | workspace | HTTP polling via `HttpPoller` and `ExternalSource` |
 | `koprs-admission` | workspace | Validating admission webhook server via `WebhookBuilder` and `Validator` |

@@ -1,5 +1,5 @@
-use chrono::{SecondsFormat, Utc};
 use k8s_openapi::apimachinery::pkg::apis::meta::v1::{Condition, Time};
+use k8s_openapi::jiff::{RoundMode, Timestamp, TimestampRound, Unit};
 use kube::api::{Patch, PatchParams};
 use kube::{Api, Client};
 use schemars::JsonSchema;
@@ -8,6 +8,15 @@ use serde_json::json;
 use tracing::info;
 
 use crate::error::Result;
+
+/// Truncates (does not round) to whole-second precision, matching the RFC
+/// 3339 `SecondsFormat::Secs` behavior this type previously relied on.
+fn truncate_to_secs(ts: Timestamp) -> Timestamp {
+    let round = TimestampRound::new()
+        .smallest(Unit::Second)
+        .mode(RoundMode::Trunc);
+    ts.round(round).unwrap_or(ts)
+}
 use crate::scope::{ApiScope, Cluster, Namespaced};
 use crate::traits::{ClusterResource, KubeResource, NamespacedResource};
 
@@ -60,10 +69,7 @@ impl From<Condition> for KoprsCondition {
             status: c.status,
             reason: c.reason,
             message: c.message,
-            last_transition_time: c
-                .last_transition_time
-                .0
-                .to_rfc3339_opts(SecondsFormat::Secs, true),
+            last_transition_time: truncate_to_secs(c.last_transition_time.0).to_string(),
             observed_generation: c.observed_generation,
         }
     }
@@ -77,9 +83,9 @@ impl From<KoprsCondition> for Condition {
             reason: kc.reason,
             message: kc.message,
             last_transition_time: Time(
-                chrono::DateTime::parse_from_rfc3339(&kc.last_transition_time)
-                    .map(|dt| dt.with_timezone(&Utc))
-                    .unwrap_or_else(|_| Utc::now()),
+                kc.last_transition_time
+                    .parse::<Timestamp>()
+                    .unwrap_or_else(|_| Timestamp::now()),
             ),
             observed_generation: kc.observed_generation,
         }
@@ -320,7 +326,7 @@ pub fn make_condition(
         reason: reason.into(),
         message: message.into(),
         observed_generation,
-        last_transition_time: Utc::now().to_rfc3339_opts(SecondsFormat::Secs, true),
+        last_transition_time: truncate_to_secs(Timestamp::now()).to_string(),
     }
 }
 

@@ -1,6 +1,6 @@
 [package]
 name = "koprs-admission"
-version = "0.9.2"
+version = "0.10.1"
 edition = "2024"
 description = "Validating admission webhook server for Kubernetes operators, designed as a companion to koprs."
 license = "MIT"

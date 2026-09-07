@@ -355,7 +355,7 @@ mod controller_tests {
     // -----------------------------------------------------------------------
 
     fn now_micro() -> MicroTime {
-        MicroTime(chrono::Utc::now())
+        MicroTime(k8s_openapi::jiff::Timestamp::now())
     }
 
     #[test]
